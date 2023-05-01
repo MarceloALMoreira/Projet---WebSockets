@@ -1,15 +1,21 @@
 import { updatetextEditor } from "./documento.js"
+
 const socket = io()
 
 
 
-
-const emetirTextoEditor = (texto) => {
-    socket.emit('texto_editor', texto)
+const selecionarDocumento = (nome) => {
+    socket.emit('selecionar_documento', nome, (texto) => {
+        updatetextEditor(texto)
+    })
 }
 
-socket.on('texto_editor_clientes', (texto) => {
+const emetirTextoEditor = (dados) => {
+    socket.emit('texto_editor', dados)
+}
+socket.on('texto_documento', (texto) => {
     updatetextEditor(texto)
 })
 
-export { emetirTextoEditor }
+
+export { emetirTextoEditor, selecionarDocumento }

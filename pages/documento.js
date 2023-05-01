@@ -1,16 +1,22 @@
 //Fazendo o meu front se conectar com o backend
 
-import { emetirTextoEditor } from "./socket-front-documento.js"
+import { emetirTextoEditor, selecionarDocumento } from "./socket-front-documento.js"
 
 const paramentros = new URLSearchParams(window.location.search)
 const nomeDocumento = paramentros.get('nome')
 
 const textoEditor = document.getElementById('editor-texto')
 const tituloDocumento = document.getElementById('titulo-documento')
-tituloDocumento.textContent = nomeDocumento
+
+tituloDocumento.textContent = nomeDocumento || 'Documento sem Titulo'
+
+selecionarDocumento(nomeDocumento)
 
 textoEditor.addEventListener('keyup', () => {
-    emetirTextoEditor(textoEditor.value)
+    emetirTextoEditor({
+        texto: textoEditor.value,
+        nomeDocumento
+    })
 })
 
 const updatetextEditor = (texto) => {
